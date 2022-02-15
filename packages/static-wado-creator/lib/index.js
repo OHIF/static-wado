@@ -1,9 +1,8 @@
 const dicomCodec = require("@cornerstonejs/dicom-codec");
-const { program, Stats } = require("@ohif/static-wado-util");
+const { program, Stats, handleHomeRelative } = require("@ohif/static-wado-util");
 const dicomParser = require("dicom-parser");
 const fs = require("fs");
 const path = require("path");
-const homedir = require("os").homedir();
 const asyncIterableToBuffer = require("./operation/adapter/asyncIterableToBuffer");
 const getDataSet = require("./operation/getDataSet");
 const InstanceDeduplicate = require("./operation/InstanceDeduplicate");
@@ -20,10 +19,8 @@ const {
   transcodeId,
   transcodeMetadata,
 } = require("./operation/adapter/transcodeImage");
+const staticWadoConfig = require('./staticWadoConfig.js')
 
-console.log(`homedir=${homedir}`);
-const handleHomeRelative = (dirName) =>
-  dirName[0] == "~" ? path.join(homedir, dirName.substring(1)) : dirName;
 
 class StaticWado {
   constructor(defaults) {
@@ -40,8 +37,8 @@ class StaticWado {
       recompress,
       contentType,
       colourContentType,
-      dir = "~/dicomweb",
-      pathDeduplicated = "deduplicated",
+      dir = defaults.rootDir || "~/dicomweb",
+      pathDeduplicated = defaults.pathDeduplicated || "deduplicated",
       pathInstances = "instances",
       removeDeduplicatedInstances,
       verbose = false,
@@ -207,7 +204,9 @@ class StaticWado {
   static main(defaults) {
     const importer = new StaticWado(defaults);
     return importer.main();
-  }
+  }  
 }
+
+StaticWado.staticWadoConfig = staticWadoConfig;
 
 module.exports = StaticWado;

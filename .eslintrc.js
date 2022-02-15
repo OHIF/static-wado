@@ -17,6 +17,7 @@ module.exports = {
     eqeqeq: 0,
     "max-len": [2, { code: 168, ignoreUrls: true }],
     "no-await-in-loop": 0,
+    "import/extensions": 0,
     "no-mixed-operators": 0,
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
     "no-continue": 0,

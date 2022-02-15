@@ -49,6 +49,12 @@
     "lint:fix": "npx eslint --fix"
   },
   "dependencies": {
-    "@ohif/static-wado-util": "^0.5.1"
+    "@ohif/static-wado-util": "^0.5.1",
+    "config-point": "^0.3.7",
+    "express": "^4.17.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "must": "^0.13.4"
   }
 }

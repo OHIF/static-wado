@@ -10,7 +10,7 @@ module.exports = {
     TEST_DATA_PATH: path.join(parentPackageRoot, "/testdata"),
     OUTPUT_TEMP_PATH: path.join(packageRoot, "/tmp/dicomweb"),
   },
-  testRegex: "./tests/.+.js$",
+  testRegex: "./tests/.+.m?js$",
   setupFilesAfterEnv: [path.join(configRoot, "/jest.setup.js")],
   globalTeardown: path.join(configRoot, "/jest.global.teardown.js"),
 };
