@@ -1,16 +1,13 @@
-// import {staticWadoConfig} from '@ohif/static-wado-creator';
-// import { ConfigPoint } from 'config-point';
-// import ConfigPointPkg from 'config-point';
-// const { ConfigPoint } = ConfigPointPkg;
-
 import ConfigPoint from "config-point";
+import StaticCreator from "@ohif/static-wado-creator";
+
+const { staticWadoConfig } = StaticCreator;
 
 const { dicomWebServerConfig } = ConfigPoint.register({
   dicomWebServerConfig: {
-    baseConfig: "staticWadoConfig",
+    configBase: staticWadoConfig,
     studyQuery: "studyQueryReadIndex",
     clientDir: "~/ohif",
-    rootDir: "~/dicomweb",
   },
 });
 

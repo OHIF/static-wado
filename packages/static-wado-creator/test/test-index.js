@@ -21,13 +21,13 @@ describe("index", async () => {
   });
 
   it("exports", async () => {
-    assert(importer).must.not.be.undefined;
-    assert(dicomp10stream.length).must.not.be.undefined;
+    assert(importer).must.not.be.undefined();
+    assert(dicomp10stream.length).must.not.be.undefined();
   });
 
   describe("staticWadoConfig", () => {
     it("has basic config", () => {
-      assert(staticWadoConfig).must.not.be.null;
+      assert(staticWadoConfig).must.not.be.null();
       assert(staticWadoConfig.rootDir).must.eql("~/dicomweb");
     });
   });

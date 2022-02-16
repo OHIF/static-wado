@@ -1,6 +1,8 @@
 import DicomWebServer, { dicomWebServerConfig } from "../lib/index.mjs";
 
 import configureProgram from "../lib/program/index.mjs";
+// TODO - setup dynamic imports
+import "../lib/studyQueryReadIndex.mjs";
 
 const defaults = {
   ...dicomWebServerConfig,

@@ -1,6 +1,7 @@
 import { handleHomeRelative } from "@ohif/static-wado-util";
 import express from "express";
 import logger from "morgan";
+import ConfigPoint from "config-point";
 import dicomWebServerConfig from "./dicomWebServerConfig.mjs";
 
 const qidoMap = (req, res, next) => {
@@ -39,6 +40,7 @@ const gzipHeaders = (res, path) => {
 
 const methods = {
   addDicomWeb(directory, params = {}) {
+    console.log("adding dicom web dir", directory);
     if (!directory) return;
     const dir = handleHomeRelative(directory);
 
@@ -50,6 +52,20 @@ const methods = {
     //     router.use('/studies/:studyUID',this.plugins.retrievePreCheck);
     // }
 
+    const studyQuery =
+      params.studyQuery && ConfigPoint.getConfig(params.studyQuery);
+    if (studyQuery) {
+      console.log("Adding a study level query:", params.studyQuery);
+      const webQuery = studyQuery.createWebQuery(directory, params);
+      router.get("/studies", webQuery);
+    } else {
+      console.log("ConfigPoint=", ConfigPoint);
+      console.log(
+        "studyQuery not found:",
+        params.studyQuery,
+        ConfigPoint.getConfig(params.studyQuery)
+      );
+    }
     router.get("/studies", qidoMap);
     router.get("/studies/:studyUID/series", qidoMap);
     router.get("/studies/:studyUID/series/metadata", otherJsonMap);
@@ -104,8 +120,8 @@ const DicomWebServer = (params) => {
   app.use(logger("combined"));
   app.params = params || {};
 
-  app.addDicomWeb(params.rootDir);
-  app.addClient(params.clientDir);
+  app.addDicomWeb(params.rootDir, params);
+  app.addClient(params.clientDir, params);
 
   const superListen = app.listen;
   app.listen = (port) => {
