@@ -2,9 +2,13 @@ import assert from "must";
 
 import ConfigPoint from "config-point";
 import { dicomWebServerConfig } from "../../lib/index.mjs";
-import "../../lib/studyQueryReadIndex.mjs";
+
 
 describe("@ohif/static-wado-webserver", () => {
+  beforeAll(() => {
+    return import("../../lib/studyQueryReadIndex.mjs");
+  });
+
   describe("dicomWebServerConfig", () => {
     it("has default values", () => {
       assert(dicomWebServerConfig.rootDir).must.eql("~/dicomweb");
