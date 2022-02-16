@@ -1,5 +1,9 @@
 const dicomCodec = require("@cornerstonejs/dicom-codec");
-const { program, Stats, handleHomeRelative } = require("@ohif/static-wado-util");
+const {
+  program,
+  Stats,
+  handleHomeRelative,
+} = require("@ohif/static-wado-util");
 const dicomParser = require("dicom-parser");
 const fs = require("fs");
 const path = require("path");
@@ -19,8 +23,7 @@ const {
   transcodeId,
   transcodeMetadata,
 } = require("./operation/adapter/transcodeImage");
-const staticWadoConfig = require('./staticWadoConfig.js')
-
+const staticWadoConfig = require("./staticWadoConfig.js");
 
 class StaticWado {
   constructor(defaults) {
@@ -204,7 +207,7 @@ class StaticWado {
   static main(defaults) {
     const importer = new StaticWado(defaults);
     return importer.main();
-  }  
+  }
 }
 
 StaticWado.staticWadoConfig = staticWadoConfig;

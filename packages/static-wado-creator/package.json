@@ -42,7 +42,7 @@
     "lib"
   ],
   "bin": {
-    "mkdicomweb": "bin/mkdicomweb.mjs",
+    "mkdicomweb": "bin/mkdicomweb.js",
     "mkdicomwebdeduplicated": "bin/mkdicomwebdeduplicated.js",
     "mkdicomwebdeduplicatedgroup": "bin/mkdicomwebdeduplicatedgroup.js",
     "mkdicomwebinstances": "bin/mkdicomwebinstances.js",
@@ -64,5 +64,8 @@
     "config-point": "^0.3.6",
     "dicom-parser": "^1.8.13",
     "node-object-hash": "^2.3.10"
+  },
+  "devDependencies": {
+    "must": "^0.13.4"
   }
 }

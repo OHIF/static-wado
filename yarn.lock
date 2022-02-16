@@ -2654,6 +2654,11 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
+babel-jest-modules@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/babel-jest-modules/-/babel-jest-modules-0.0.2.tgz#866012f6cdc6f6acae0e2c64dccf11f84aba0ad1"
+  integrity sha512-8dV7NAmYqD9u9ihBNtotI5tqLAbCWHaIS8y7HNym7iReubPMuxk5XRbEXb/EY9ElED1ABlH36WAz7WQ42DKtCQ==
+
 babel-jest@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-27.5.1.tgz#a1bf8d61928edfefd21da27eb86a695bfd691444"
