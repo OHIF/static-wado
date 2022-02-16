@@ -42,6 +42,9 @@
     "bin",
     "lib"
   ],
+  "bin": {
+    "dicomwebserver": "bin/dicomwebserver.mjs"
+  },
   "scripts": {
     "test": "jest --config ./jest.config.js",
     "build": "echo \"No build yet\" && exit 0",

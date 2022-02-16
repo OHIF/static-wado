@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import DicomWebServer, { dicomWebServerConfig } from "../lib/index.mjs";
 
 import configureProgram from "../lib/program/index.mjs";
