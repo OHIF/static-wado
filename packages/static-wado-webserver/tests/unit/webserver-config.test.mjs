@@ -3,7 +3,6 @@ import assert from "must";
 import ConfigPoint from "config-point";
 import { dicomWebServerConfig } from "../../lib/index.mjs";
 
-
 describe("@ohif/static-wado-webserver", () => {
   beforeAll(() => import("../../lib/studyQueryReadIndex.mjs"));
 

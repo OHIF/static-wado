@@ -1,8 +1,9 @@
 const { program, configureProgram } = require("./program");
 const { Stats } = require("./stats");
-const handleHomeRelative = require("./handleHomeRelative");
+exports.handleHomeRelative = require("./handleHomeRelative");
+exports.JSONReader = require("./reader/JSONReader");
+exports.dirScanner = require("./reader/dirScanner");
 
 exports.configureProgram = configureProgram;
 exports.program = program;
 exports.Stats = Stats;
-exports.handleHomeRelative = handleHomeRelative;

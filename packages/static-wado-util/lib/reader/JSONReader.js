@@ -1,14 +1,15 @@
-const { Stats } = require("@ohif/static-wado-util");
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
-const zlib = require("zlib");
+const zlib = require("zlib").promises;
+
+const { Stats } = require("../stats");
 
 const JSONReader = async (dir, name, def) => {
   let finalData;
   try {
-    const rawdata = fs.readFileSync(path.join(dir, name));
+    const rawdata = await fs.readFile(path.join(dir, name));
     if (name.indexOf(".gz") != -1) {
-      finalData = zlib.gunzipSync(rawdata).toString("utf-8");
+      finalData = await zlib.gunzip(rawdata).toString("utf-8");
     } else {
       finalData = rawdata;
     }
@@ -20,7 +21,11 @@ const JSONReader = async (dir, name, def) => {
 };
 
 /** Calls the JSON reader on the path appropriate for the given hash data */
-JSONReader.readHashData = (studyDir, hashValue, extension = ".json.gz") => {
+JSONReader.readHashData = async (
+  studyDir,
+  hashValue,
+  extension = ".json.gz"
+) => {
   const hashPath = path.join(
     studyDir,
     "bulkdata",

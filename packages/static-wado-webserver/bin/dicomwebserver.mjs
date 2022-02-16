@@ -6,8 +6,6 @@ import configureProgram from "../lib/program/index.mjs";
 
 // Dynamically include the required imports
 import("../lib/studyQueryReadIndex.mjs").then(() => {
-
-
   const defaults = {
     ...dicomWebServerConfig,
     helpShort: "dicomwebserver",
@@ -20,5 +18,4 @@ import("../lib/studyQueryReadIndex.mjs").then(() => {
 
   const app = DicomWebServer(defaults);
   app.listen();
-
-})
+});
