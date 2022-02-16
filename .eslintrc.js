@@ -8,7 +8,7 @@ module.exports = {
   extends: ["airbnb-base", "prettier", "plugin:node/recommended"],
   plugins: ["eslint-plugin-prettier", "jest"],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
   },
   rules: {
     "no-param-reassign": "warn",
@@ -26,5 +26,6 @@ module.exports = {
     "no-restricted-syntax": "warn",
     "consistent-return": "warn",
     "prefer-destructuring": 0,
+    "node/no-unsupported-features/es-syntax": 0,
   },
 };

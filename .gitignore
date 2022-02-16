@@ -47,3 +47,6 @@ node_modules/
 
 # Build directory
 **/build/
+
+# VS Code
+*.code-workspace

@@ -5,9 +5,7 @@ import { dicomWebServerConfig } from "../../lib/index.mjs";
 
 
 describe("@ohif/static-wado-webserver", () => {
-  beforeAll(() => {
-    return import("../../lib/studyQueryReadIndex.mjs");
-  });
+  beforeAll(() => import("../../lib/studyQueryReadIndex.mjs"));
 
   describe("dicomWebServerConfig", () => {
     it("has default values", () => {
