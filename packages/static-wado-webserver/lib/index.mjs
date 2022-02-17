@@ -4,18 +4,27 @@ import logger from "morgan";
 import ConfigPoint from "config-point";
 import dicomWebServerConfig from "./dicomWebServerConfig.mjs";
 
+/**
+ * Maps QIDO queries for studies, series and instances to the index.json.gz file.
+ */
 const qidoMap = (req, res, next) => {
   req.url = `${req.path}/index.json.gz`;
   res.setHeader("content-type", "application/json");
   next();
 };
 
+/**
+ * Handles returning other JSON files as application/json, and uses the compression extension.
+ */
 const otherJsonMap = (req, res, next) => {
   res.setHeader("content-type", "application/json");
   req.url = `${req.path}.gz`;
   next();
 };
 
+/**
+ * Default handling when a request isn't found.  Just responsds with a 404 and a message saying it wasn't found.
+ */
 const missingMap = (req, res, next) => {
   console.log("Not found", req.path);
   res
@@ -30,6 +39,7 @@ const missingMap = (req, res, next) => {
   next();
 };
 
+/** Adds the compression headers to the response */
 const gzipHeaders = (res, path) => {
   if (path.indexOf(".gz") !== -1) {
     res.setHeader("Content-Encoding", "gzip");
@@ -38,7 +48,14 @@ const gzipHeaders = (res, path) => {
   }
 };
 
+/**
+ * Methods to allow configuring directories as being either client or dicomweb containing directories.
+ */
 const methods = {
+
+  /**
+   * Add a new DICOMweb directory.  
+   */
   addDicomWeb(directory, params = {}) {
     console.log("adding dicom web dir", directory);
     if (!directory) return;
@@ -88,6 +105,12 @@ const methods = {
     // }
   },
 
+  /**
+   * Adds a client directory, typically served on /
+   * @param {*} directory containing the client to serve.  Defaults to ~/ohif 
+   * @param {*} params 
+   * @returns 
+   */
   addClient(directory, params = {}) {
     if (!directory) return;
     const dir = handleHomeRelative(directory);
@@ -106,13 +129,20 @@ const methods = {
   },
 };
 
-// Serve up the web files
-// Configuration is broken up into several parts:
-// 1. Web Service Configuration - port number, path, localhost only or all hosts or specified
-// 2. Client Service Configuration - one or more static directories containing static client files
-// 3. DICOMweb Service Configuration - a directory or root path to serve, plus one or more dynamic component extensions
-// These can all be repeated.
 
+/**
+ * Serve up the web files
+ * Configuration is broken up into several parts:
+ * 1. Web Service Configuration - port number, path, localhost only or all hosts or specified
+ * 2. Client Service Configuration - one or more static directories containing static client files
+ * 3. DICOMweb Service Configuration - a directory or root path to serve, plus one or more dynamic component extension
+ * 
+ * This is basically a simple script that just configures an express app, returning it.  The configuration all comes from the
+ * params or the default values.
+ * 
+ * @param {*} params 
+ * @returns 
+ */
 const DicomWebServer = (params) => {
   const app = express();
   Object.assign(app, methods);
