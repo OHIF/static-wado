@@ -52,9 +52,8 @@ const gzipHeaders = (res, path) => {
  * Methods to allow configuring directories as being either client or dicomweb containing directories.
  */
 const methods = {
-
   /**
-   * Add a new DICOMweb directory.  
+   * Add a new DICOMweb directory.
    */
   addDicomWeb(directory, params = {}) {
     console.log("adding dicom web dir", directory);
@@ -107,9 +106,9 @@ const methods = {
 
   /**
    * Adds a client directory, typically served on /
-   * @param {*} directory containing the client to serve.  Defaults to ~/ohif 
-   * @param {*} params 
-   * @returns 
+   * @param {*} directory containing the client to serve.  Defaults to ~/ohif
+   * @param {*} params
+   * @returns
    */
   addClient(directory, params = {}) {
     if (!directory) return;
@@ -129,19 +128,18 @@ const methods = {
   },
 };
 
-
 /**
  * Serve up the web files
  * Configuration is broken up into several parts:
  * 1. Web Service Configuration - port number, path, localhost only or all hosts or specified
  * 2. Client Service Configuration - one or more static directories containing static client files
  * 3. DICOMweb Service Configuration - a directory or root path to serve, plus one or more dynamic component extension
- * 
+ *
  * This is basically a simple script that just configures an express app, returning it.  The configuration all comes from the
  * params or the default values.
- * 
- * @param {*} params 
- * @returns 
+ *
+ * @param {*} params
+ * @returns
  */
 const DicomWebServer = (params) => {
   const app = express();
@@ -157,7 +155,7 @@ const DicomWebServer = (params) => {
   app.listen = (port) => {
     if (port) superListen.call(app, port);
     else {
-      console.log(`Server listening on ${app.params.port || 5000}`);
+      console.log(`Server listening on ${params.port || 5000}`);
       superListen.call(app, app.params.port || 5000);
     }
   };

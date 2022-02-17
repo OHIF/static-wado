@@ -5,14 +5,9 @@ import DicomWebServer, { dicomWebServerConfig } from "../lib/index.mjs";
 import configureProgram from "../lib/program/index.mjs";
 
 // Dynamically include the required imports
-import("../lib/studyQueryReadIndex.mjs").then(() => {
-  const defaults = {
-    ...dicomWebServerConfig,
-    helpShort: "dicomwebserver",
-    helpDescription:
-      "Serve up the static wado files and optionally a web client as a web server on the local machine.",
-  };
+const defaults = Object.create(dicomWebServerConfig);
 
+import("../lib/studyQueryReadIndex.mjs").then(() => {
   // Configure program commander
   configureProgram(defaults);
 

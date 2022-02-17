@@ -16,6 +16,5 @@ describe("@ohif/static-wado-webserver", () => {
   it("loadStudyQueryReadIndex plugin", () => {
     const studyQueryReadIndex = ConfigPoint.getConfig("studyQueryReadIndex");
     assert(studyQueryReadIndex).must.not.be.undefined();
-    console.log("studyQueryReadIndex=", studyQueryReadIndex);
   });
 });
