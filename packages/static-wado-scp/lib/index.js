@@ -1,6 +1,7 @@
 const { Stats } = require("@ohif/static-wado-util");
 const StaticWado = require("@ohif/static-wado-creator");
 const dcmjsDimse = require("dcmjs-dimse");
+const dicomWebScpConfig = require("./dicomWebScpConfig");
 
 const { Server, Scp } = dcmjsDimse;
 const { CEchoResponse, CStoreResponse } = dcmjsDimse.responses;
@@ -154,5 +155,6 @@ class DcmjsDimseScp extends Scp {
   }
 }
 
+exports.dicomWebScpConfig = dicomWebScpConfig;
 exports.DcmjsDimseScp = DcmjsDimseScp;
 exports.Server = Server;

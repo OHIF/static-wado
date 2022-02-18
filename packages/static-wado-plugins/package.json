@@ -1,21 +1,17 @@
 {
-  "name": "@ohif/static-wado-webserver",
+  "name": "@ohif/static-wado-plugins",
   "version": "0.5.1",
-  "description": "Webserver to serve a static-wado repo",
+  "description": "Plugins to support the static-wado project",
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
     "StaticWado",
-    "StaticWadoServer",
     "DICOM",
     "DICOMweb"
   ],
   "author": [
-    "Chris Hafey <chafey@gmail.com>",
-    "Bill Wallace <bill.wallace@radicalimaging.com>"
-  ],
-  "contributors": [
+    "Bill Wallace <bill.wallace@radicalimaging.com>",
     "Rodolfo Costa <rodolfo.costa@radicalimaging.com>"
   ],
   "engines": {
@@ -26,7 +22,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/OHIF/static-wado",
-    "directory": "packages/static-wado-scp"
+    "directory": "packages/static-wado-plugins"
   },
   "bugs": {
     "url": "https://github.com/OHIF/static-wado/issues"
@@ -35,30 +31,24 @@
   "license": "ISC",
   "main": "lib/index.js",
   "directories": {
-    "lib": "lib",
-    "bin": "bin"
+    "lib": "lib"
   },
   "files": [
-    "bin",
     "lib"
   ],
-  "bin": {
-    "dicomwebserver": "bin/dicomwebserver.mjs"
-  },
   "scripts": {
     "test": "jest --config ./jest.config.js",
     "build": "echo \"No build yet\" && exit 0",
+    "link:exec": "npm link",
     "lint": "npx eslint",
     "lint:fix": "npx eslint --fix"
   },
+  "jest": {
+    "verbose": true
+  },
   "dependencies": {
-    "@ohif/static-wado-creator": "^0.5.1",
-    "@ohif/static-wado-plugins": "^0.5.1",
     "@ohif/static-wado-util": "^0.5.1",
-    "config-point": "^0.3.9",
-    "express": "^4.17.2",
-    "morgan": "^1.10.0",
-    "regenerator-runtime": "^0.13.9"
+    "config-point": "0.3.9"
   },
   "devDependencies": {
     "must": "^0.13.4"

@@ -1,20 +1,29 @@
-import assert from "must";
+import must from "must";
 
 import ConfigPoint from "config-point";
-import { dicomWebServerConfig } from "../../lib/index.mjs";
+import { dicomWebServerConfig, importPlugin } from "../../lib/index.mjs";
+
+import "regenerator-runtime";
 
 describe("@ohif/static-wado-webserver", () => {
-  beforeAll(() => import("../../lib/studyQueryReadIndex.mjs"));
+  beforeAll(() => importPlugin("readSeriesIndex"));
 
-  describe("dicomWebServerConfig", () => {
-    it("has default values", () => {
-      assert(dicomWebServerConfig.rootDir).must.eql("~/dicomweb");
-      assert(dicomWebServerConfig.studyQuery).must.eql("studyQueryReadIndex");
-    });
+  const params = { rootDir: ".." };
+
+  it("has default values", () => {
+    must(ConfigPoint.getConfig(dicomWebServerConfig)).not.be.undefined();
+    must(ConfigPoint.getConfig("readSeriesIndex")).not.be.undefined();
   });
 
-  it("loadStudyQueryReadIndex plugin", () => {
-    const studyQueryReadIndex = ConfigPoint.getConfig("studyQueryReadIndex");
-    assert(studyQueryReadIndex).must.not.be.undefined();
+  it("loaded readSeriesIndex", async () => {
+    const { generator } = await importPlugin("readSeriesIndex");
+    const readSeriesIndex = generator(params);
+    must(readSeriesIndex).be.function();
+  });
+
+  it("loaded studiesQueryByIndex", async () => {
+    const { generator } = await importPlugin("studiesQueryByIndex");
+    const queryFunction = generator(params);
+    must(queryFunction).be.function();
   });
 });

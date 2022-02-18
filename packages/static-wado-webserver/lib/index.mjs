@@ -1,8 +1,12 @@
 import { handleHomeRelative } from "@ohif/static-wado-util";
 import express from "express";
 import logger from "morgan";
-import ConfigPoint from "config-point";
+import { importPlugin as cpImportPlugin } from "config-point";
 import dicomWebServerConfig from "./dicomWebServerConfig.mjs";
+import "regenerator-runtime";
+
+const importPlugin = (name) =>
+  cpImportPlugin(name, (moduleName) => import(moduleName));
 
 /**
  * Maps QIDO queries for studies, series and instances to the index.json.gz file.
@@ -48,6 +52,25 @@ const gzipHeaders = (res, path) => {
   }
 };
 
+const addQueryCall = async (router, level, params, key) => {
+  const name = params[key];
+  if (!name) return;
+  const plugin = await importPlugin(name);
+  console.log("plugin=", plugin.default.generator);
+  const { generator } = plugin.default || plugin;
+  const queryFunction = generator(params, key);
+  console.log("Adding Query call on", level);
+  router.get(level, async (req, res, next) => {
+    const results = await queryFunction(req.query);
+    if (results) {
+      console.log("Found results", results.length);
+      res.json(results);
+      return;
+    }
+    next();
+  });
+};
+
 /**
  * Methods to allow configuring directories as being either client or dicomweb containing directories.
  */
@@ -55,7 +78,7 @@ const methods = {
   /**
    * Add a new DICOMweb directory.
    */
-  addDicomWeb(directory, params = {}) {
+  async addDicomWeb(directory, params = {}) {
     console.log("adding dicom web dir", directory);
     if (!directory) return;
     const dir = handleHomeRelative(directory);
@@ -64,24 +87,7 @@ const methods = {
     const router = express.Router();
     this.use(path, router);
 
-    // if( this.plugins.retrievePreCheck ) {
-    //     router.use('/studies/:studyUID',this.plugins.retrievePreCheck);
-    // }
-
-    const studyQuery =
-      params.studyQuery && ConfigPoint.getConfig(params.studyQuery);
-    if (studyQuery) {
-      console.log("Adding a study level query:", params.studyQuery);
-      const webQuery = studyQuery.createWebQuery(directory, params);
-      router.get("/studies", webQuery);
-    } else {
-      console.log("ConfigPoint=", ConfigPoint);
-      console.log(
-        "studyQuery not found:",
-        params.studyQuery,
-        ConfigPoint.getConfig(params.studyQuery)
-      );
-    }
+    await addQueryCall(router, "/studies", params, "studyQuery");
     router.get("/studies", qidoMap);
     router.get("/studies/:studyUID/series", qidoMap);
     router.get("/studies/:studyUID/series/metadata", otherJsonMap);
@@ -141,14 +147,14 @@ const methods = {
  * @param {*} params
  * @returns
  */
-const DicomWebServer = (params) => {
+const DicomWebServer = async (params) => {
   const app = express();
   Object.assign(app, methods);
 
   app.use(logger("combined"));
   app.params = params || {};
 
-  app.addDicomWeb(params.rootDir, params);
+  await app.addDicomWeb(params.rootDir, params);
   app.addClient(params.clientDir, params);
 
   const superListen = app.listen;
@@ -164,4 +170,4 @@ const DicomWebServer = (params) => {
 };
 
 export default DicomWebServer;
-export { dicomWebServerConfig };
+export { dicomWebServerConfig, importPlugin };
