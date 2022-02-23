@@ -1,6 +1,6 @@
 import ConfigPoint from "config-point";
 import StaticCreator from "@ohif/static-wado-creator";
-import "@ohif/static-wado-plugins";
+import { plugins } from "@ohif/static-wado-plugins";
 
 const { staticWadoConfig } = StaticCreator;
 
