@@ -12,8 +12,7 @@ const { dicomWebScpConfig } = ConfigPoint.register({
     isStudyData: true,
     isGroup: true,
     helpShort: "dicomwebscp",
-    helpDescription:
-      "Creates server to receive data on DIMSE and store it DICOM",
+    helpDescription: "Creates server to receive data on DIMSE and store it DICOM",
     scpAe: "DICOMWEB",
     scpPort: 11112,
   },

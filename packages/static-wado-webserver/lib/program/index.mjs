@@ -10,12 +10,7 @@ const dicomwebDefaultDir = dicomWebServerConfig.rootDir;
  * @returns Program object
  */
 function configureProgram(defaults) {
-  const {
-    argumentsRequired = [],
-    optionsRequired = [],
-    helpShort,
-    helpDescription,
-  } = defaults;
+  const { argumentsRequired = [], optionsRequired = [], helpShort, helpDescription } = defaults;
 
   const argumentsList = [];
 
@@ -33,8 +28,7 @@ function configureProgram(defaults) {
     },
     {
       key: "-c, --configuration <config-file.json5>",
-      description:
-        "Sets the base configurationfile, defaults to static-wado.json5 located in the current directory or in user home directory",
+      description: "Sets the base configurationfile, defaults to static-wado.json5 located in the current directory or in user home directory",
       defaultValue: ["./static-wado.json5", "~/static-wado.json5"],
     },
   ];
@@ -46,6 +40,7 @@ function configureProgram(defaults) {
     helpShort,
     optionsList,
     optionsRequired,
+    configurationFile: defaults.configurationFile,
   };
 
   return staticWadoUtil.configureProgram(configuration);

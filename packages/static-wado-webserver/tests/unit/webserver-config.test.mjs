@@ -1,6 +1,7 @@
 import must from "must";
 
 import ConfigPoint from "config-point";
+import { loadConfiguration } from "@ohif/static-wado-util";
 import { dicomWebServerConfig, importPlugin } from "../../lib/index.mjs";
 
 import "regenerator-runtime";
@@ -25,5 +26,13 @@ describe("@ohif/static-wado-webserver", () => {
     const { generator } = await importPlugin("studiesQueryByIndex");
     const queryFunction = generator(params);
     must(queryFunction).be.function();
+  });
+
+  it("loads program files", async () => {
+    const defaults = Object.create(dicomWebServerConfig);
+    must(defaults.port).eql(5000);
+    await loadConfiguration(["~/notFound.json5", "tests/static-wado.json5"]);
+    must(defaults.port).eql(5001);
+    must(defaults.rootDir).eql("../../../../tmp/dicomweb");
   });
 });

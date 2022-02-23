@@ -5,8 +5,7 @@ import { importPlugin as cpImportPlugin } from "config-point";
 import dicomWebServerConfig from "./dicomWebServerConfig.mjs";
 import "regenerator-runtime";
 
-const importPlugin = (name) =>
-  cpImportPlugin(name, (moduleName) => import(moduleName));
+const importPlugin = (name) => cpImportPlugin(name, (moduleName) => import(moduleName));
 
 /**
  * Maps QIDO queries for studies, series and instances to the index.json.gz file.
@@ -34,11 +33,9 @@ const missingMap = (req, res, next) => {
   res
     .status(404)
     .send(
-      `Couldn't find ${req.path} in studyUID ${
-        req.params.studyUID
-      } - TODO, query remote with params=${JSON.stringify(
-        req.params
-      )} and query=${JSON.stringify(req.query)}`
+      `Couldn't find ${req.path} in studyUID ${req.params.studyUID} - TODO, query remote with params=${JSON.stringify(req.params)} and query=${JSON.stringify(
+        req.query
+      )}`
     );
   next();
 };
@@ -56,9 +53,9 @@ const addQueryCall = async (router, level, params, key) => {
   const name = params[key];
   if (!name) return;
   const plugin = await importPlugin(name);
- const { generator } = plugin.default || plugin;
+  const { generator } = plugin.default || plugin;
   const queryFunction = generator(params, key);
-  console.log("Adding Query call on", level);
+  console.log("Adding query call on", level, "to", name);
   router.get(level, async (req, res, next) => {
     const results = await queryFunction(req.query);
     if (results) {
@@ -78,7 +75,7 @@ const methods = {
    * Add a new DICOMweb directory.
    */
   async addDicomWeb(directory, params = {}) {
-    console.log("adding dicom web dir", directory);
+    console.log("Adding dicom web dir", directory);
     if (!directory) return;
     const dir = handleHomeRelative(directory);
 
@@ -121,7 +118,7 @@ const methods = {
 
     const path = params.path || "/";
 
-    this.get("/viewer", (req,res,next) => {
+    this.get("/viewer", (req, res, next) => {
       req.url = "/index.html";
       next();
     });

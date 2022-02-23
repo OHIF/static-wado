@@ -11,8 +11,7 @@ const { dicomWebServerConfig } = ConfigPoint.register({
   dicomWebServerConfig: {
     configBase: staticWadoConfig,
     helpShort: "dicomwebserver",
-    helpDescription:
-      "Serve up the static wado files and optionally a web client as a web server on the local machine.",
+    helpDescription: "Serve up the static wado files and optionally a web client as a web server on the local machine.",
     studyQuery: "studiesQueryByIndex",
     clientDir: "~/ohif",
     port: 5000,

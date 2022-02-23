@@ -8,8 +8,7 @@ const { importPlugin } = ConfigPoint;
 const { plugins } = ConfigPoint.register({
   plugins: {
     readSeriesIndex: "@ohif/static-wado-plugins/lib/readSeriesIndex.plugin.js",
-    studiesQueryByIndex:
-      "@ohif/static-wado-plugins/lib/studiesQueryByIndex.plugin.js",
+    studiesQueryByIndex: "@ohif/static-wado-plugins/lib/studiesQueryByIndex.plugin.js",
   },
 });
 

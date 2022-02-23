@@ -8,6 +8,8 @@ import configureProgram from "../lib/program/index.mjs";
 const defaults = Object.create(dicomWebServerConfig);
 
 // Configure program commander
-configureProgram(defaults);
-
-DicomWebServer(defaults).then((value) => value.listen());
+configureProgram(defaults)
+  .loadConfiguration()
+  .then(() => {
+    DicomWebServer(defaults).then((value) => value.listen());
+  });

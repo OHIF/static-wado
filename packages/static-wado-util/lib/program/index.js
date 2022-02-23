@@ -1,13 +1,10 @@
 const { program, Argument } = require("commander");
+const loadConfiguration = require("../loadConfiguration");
 
 function configureBaseProgram(configuration) {
   const { helpDescription, helpShort } = configuration;
 
-  program
-    .name(helpShort)
-    .configureHelp({ sortOptions: true })
-    .addHelpText("beforeAll", helpDescription)
-    .addHelpCommand();
+  program.name(helpShort).configureHelp({ sortOptions: true }).addHelpText("beforeAll", helpDescription).addHelpCommand();
 
   return program;
 }
@@ -20,13 +17,7 @@ function configureBaseProgram(configuration) {
  * @returns Program object
  */
 function configureProgram(configuration) {
-  const {
-    argumentsRequired = [],
-    optionsRequired = [],
-    argumentsList = [],
-    optionsList = [],
-    packageJson = {},
-  } = configuration;
+  const { argumentsRequired = [], optionsRequired = [], argumentsList = [], optionsList = [], packageJson = {} } = configuration;
 
   program.version(packageJson.version);
 
@@ -47,10 +38,7 @@ function configureProgram(configuration) {
 
     option.default(defaultValue);
 
-    if (
-      optionsRequired.includes(option.short) ||
-      optionsRequired.includes(option.long)
-    ) {
+    if (optionsRequired.includes(option.short) || optionsRequired.includes(option.long)) {
       option.makeOptionMandatory();
     }
 
@@ -63,6 +51,7 @@ function configureProgram(configuration) {
 
   currentProgram.parse();
 
+  currentProgram.loadConfiguration = () => loadConfiguration(configuration.configurationFile);
   return currentProgram;
 }
 

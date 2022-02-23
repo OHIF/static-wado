@@ -40,10 +40,7 @@ const compareValues = (desired, actual) => {
       return actual.indexOf(desired.substring(0, desired.length - 1)) != -1;
     }
     if (desired[0] === "*") {
-      return (
-        actual.indexOf(desired.substring(1)) ===
-        actual.length - desired.length + 1
-      );
+      return actual.indexOf(desired.substring(1)) === actual.length - desired.length + 1;
     }
   }
   return desired === actual;
@@ -74,8 +71,7 @@ const filterItem = (key, queryParams, study) => {
   if (!testValue) return true;
   const valueElem = study[key] || study[altKey];
   if (!valueElem) return false;
-  if (valueElem.vr == "DA")
-    return compareDateRange(testValue, valueElem.Value[0]);
+  if (valueElem.vr == "DA") return compareDateRange(testValue, valueElem.Value[0]);
   const value = valueElem.Value;
   return !!compareValues(testValue, value);
 };

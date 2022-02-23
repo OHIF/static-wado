@@ -5,8 +5,7 @@ const dicomWebScpConfig = require("./dicomWebScpConfig");
 
 const { Server, Scp } = dcmjsDimse;
 const { CEchoResponse, CStoreResponse } = dcmjsDimse.responses;
-const { Status, PresentationContextResult, SopClass, StorageClass } =
-  dcmjsDimse.constants;
+const { Status, PresentationContextResult, SopClass, StorageClass } = dcmjsDimse.constants;
 
 // An in-order list of transfer syntaxes.
 /*
@@ -72,35 +71,18 @@ class DcmjsDimseScp extends Scp {
     try {
       contexts.forEach((c) => {
         const context = association.getPresentationContext(c.id);
-        if (
-          context.getAbstractSyntaxUid() === SopClass.Verification ||
-          Object.values(StorageClass).includes(context.getAbstractSyntaxUid())
-        ) {
+        if (context.getAbstractSyntaxUid() === SopClass.Verification || Object.values(StorageClass).includes(context.getAbstractSyntaxUid())) {
           const transferSyntaxes = context.getTransferSyntaxUids();
-          const transferSyntax = PreferredTransferSyntax.find((tsuid) =>
-            transferSyntaxes.find((contextTsuid) => contextTsuid === tsuid)
-          );
+          const transferSyntax = PreferredTransferSyntax.find((tsuid) => transferSyntaxes.find((contextTsuid) => contextTsuid === tsuid));
           if (transferSyntax) {
             context.setResult(PresentationContextResult.Accept, transferSyntax);
           } else {
-            console.log(
-              "Rejected syntax",
-              context.getAbstractSyntaxUid(),
-              "because no transfer syntax found in",
-              transferSyntaxes
-            );
-            context.setResult(
-              PresentationContextResult.RejectTransferSyntaxesNotSupported
-            );
+            console.log("Rejected syntax", context.getAbstractSyntaxUid(), "because no transfer syntax found in", transferSyntaxes);
+            context.setResult(PresentationContextResult.RejectTransferSyntaxesNotSupported);
           }
         } else {
-          console.log(
-            "Not supported abstract syntax",
-            context.getAbstractSyntaxUid()
-          );
-          context.setResult(
-            PresentationContextResult.RejectAbstractSyntaxNotSupported
-          );
+          console.log("Not supported abstract syntax", context.getAbstractSyntaxUid());
+          context.setResult(PresentationContextResult.RejectAbstractSyntaxNotSupported);
         }
       });
     } catch (e) {
