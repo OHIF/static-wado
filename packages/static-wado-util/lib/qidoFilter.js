@@ -34,9 +34,6 @@ const compareValues = (desired, actual) => {
     if (actual.length === 0) return true;
     if (desired.length === 0 || desired === "*") return true;
     if (desired[0] === "*" && desired[desired.length - 1] === "*") {
-      console.log(
-        `Comparing ${actual} to ${desired.substring(1, desired.length - 1)}`
-      );
       return actual.indexOf(desired.substring(1, desired.length - 1)) != -1;
     }
     if (desired[desired.length - 1] === "*") {

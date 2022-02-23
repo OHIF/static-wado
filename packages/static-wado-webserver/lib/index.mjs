@@ -56,8 +56,7 @@ const addQueryCall = async (router, level, params, key) => {
   const name = params[key];
   if (!name) return;
   const plugin = await importPlugin(name);
-  console.log("plugin=", plugin.default.generator);
-  const { generator } = plugin.default || plugin;
+ const { generator } = plugin.default || plugin;
   const queryFunction = generator(params, key);
   console.log("Adding Query call on", level);
   router.get(level, async (req, res, next) => {
@@ -121,6 +120,11 @@ const methods = {
     const dir = handleHomeRelative(directory);
 
     const path = params.path || "/";
+
+    this.get("/viewer", (req,res,next) => {
+      req.url = "/index.html";
+      next();
+    });
 
     this.use(
       path,
