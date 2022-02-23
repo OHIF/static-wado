@@ -52,19 +52,24 @@ const gzipHeaders = (res, path) => {
 const addQueryCall = async (router, level, params, key) => {
   const name = params[key];
   if (!name) return;
-  const plugin = await importPlugin(name);
-  const { generator } = plugin.default || plugin;
-  const queryFunction = generator(params, key);
-  console.log("Adding query call on", level, "to", name);
-  router.get(level, async (req, res, next) => {
-    const results = await queryFunction(req.query);
-    if (results) {
-      console.log("Found results", results.length);
-      res.json(results);
-      return;
-    }
-    next();
-  });
+  try {
+    const plugin = await importPlugin(name);
+    const { generator } = plugin.default || plugin;
+    const queryFunction = generator(params, key);
+    console.log("Adding query call on", level, "to", name);
+    router.get(level, async (req, res, next) => {
+      const results = await queryFunction(req.query);
+      if (results) {
+        console.log("Found results", results.length);
+        res.json(results);
+        return;
+      }
+      next();
+    });
+  } catch (e) {
+    console.error("Unable to load study query plugin", name, "because", e);
+    process.exit(-1);
+  }
 };
 
 /**

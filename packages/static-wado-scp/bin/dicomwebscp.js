@@ -6,14 +6,17 @@ const { configureProgram } = require("../lib/program");
 const defaults = Object.create(dicomWebScpConfig);
 
 // Configure program commander
-configureProgram(defaults);
+configureProgram(defaults)
+  .loadConfiguration()
+  .then(() => {
 
-const port = defaults.scpPort || 11112;
+    const port = defaults.scpPort || 11112;
 
-console.log(Server);
-const server = new Server(DcmjsDimseScp);
-server.on("networkError", (e) => {
-  console.log("Network error: ", e);
-});
-console.log(`Starting server listen on port ${port}`);
-server.listen(port);
+    const server = new Server(DcmjsDimseScp);
+    server.on("networkError", (e) => {
+      console.log("Network error: ", e);
+    });
+    console.log(`Starting server listen on port ${port}`);
+    server.listen(port);
+
+  });

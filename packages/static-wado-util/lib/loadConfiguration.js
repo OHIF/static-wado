@@ -7,8 +7,9 @@ const handleHomeRelative = require("./handleHomeRelative");
  * or resolves if no configuration file is found.
  * Fails if the parse fails for any reason.
  */
-module.exports = (configurationFiles) => {
-  if (!configurationFiles) return Promise.resolve();
+module.exports = (configurationFilesSrc) => {
+  if (!configurationFilesSrc) return Promise.resolve();
+  const configurationFiles = Array.isArray(configurationFilesSrc) && configurationFilesSrc || [configurationFilesSrc];
   for (const configFile of configurationFiles) {
     const filename = handleHomeRelative(configFile);
     if (fs.existsSync(filename)) {

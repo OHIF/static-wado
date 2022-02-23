@@ -32,6 +32,12 @@ function configureProgram(configuration) {
     });
   });
 
+  optionsList.push(
+  {
+    key: "-c, --configuration <config-file.json5>",
+    description: "Sets the base configurationfile, defaults to static-wado.json5 located in the current directory or in user home directory",
+  });
+
   // iterate over option list and set to program
   optionsList.forEach(({ key, description, defaultValue, choices }) => {
     const option = currentProgram.createOption(key, description);
@@ -51,7 +57,8 @@ function configureProgram(configuration) {
 
   currentProgram.parse();
 
-  currentProgram.loadConfiguration = () => loadConfiguration(configuration.configurationFile);
+  const configurationFile = currentProgram.getOptionValue("configuration");
+  currentProgram.loadConfiguration = () => loadConfiguration(configurationFile || configuration.configurationFile);
   return currentProgram;
 }
 
