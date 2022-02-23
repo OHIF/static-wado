@@ -68,6 +68,7 @@ const addQueryCall = async (router, level, params, key) => {
     });
   } catch (e) {
     console.error("Unable to load study query plugin", name, "because", e);
+    // eslint-disable-next-line no-process-exit
     process.exit(-1);
   }
 };

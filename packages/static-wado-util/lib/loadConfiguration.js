@@ -9,7 +9,7 @@ const handleHomeRelative = require("./handleHomeRelative");
  */
 module.exports = (configurationFilesSrc) => {
   if (!configurationFilesSrc) return Promise.resolve();
-  const configurationFiles = Array.isArray(configurationFilesSrc) && configurationFilesSrc || [configurationFilesSrc];
+  const configurationFiles = (Array.isArray(configurationFilesSrc) && configurationFilesSrc) || [configurationFilesSrc];
   for (const configFile of configurationFiles) {
     const filename = handleHomeRelative(configFile);
     if (fs.existsSync(filename)) {

@@ -9,7 +9,6 @@ const defaults = Object.create(dicomWebScpConfig);
 configureProgram(defaults)
   .loadConfiguration()
   .then(() => {
-
     const port = defaults.scpPort || 11112;
 
     const server = new Server(DcmjsDimseScp);
@@ -18,5 +17,4 @@ configureProgram(defaults)
     });
     console.log(`Starting server listen on port ${port}`);
     server.listen(port);
-
   });
