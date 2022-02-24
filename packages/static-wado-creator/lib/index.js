@@ -1,5 +1,5 @@
 const dicomCodec = require("@cornerstonejs/dicom-codec");
-const { program, Stats, handleHomeRelative } = require("@ohif/static-wado-util");
+const { Stats, handleHomeRelative } = require("@ohif/static-wado-util");
 const dicomParser = require("dicom-parser");
 const fs = require("fs");
 const path = require("path");
@@ -18,30 +18,29 @@ const { transcodeImageFrame, transcodeId, transcodeMetadata } = require("./opera
 const staticWadoConfig = require("./staticWadoConfig.js");
 
 class StaticWado {
-  constructor(defaults) {
-    const { scanStudies } = defaults;
-
+  constructor(configuration) {
     const {
+      scanStudies,
       maximumInlinePublicLength,
       maximumInlinePrivateLength,
-      group: isGroup,
-      instances: isInstanceMetadata,
-      deduplicate: isDeduplicate,
-      study: isStudyData,
-      clean: isClean,
+      isGroup,
+      isInstanceMetadata,
+      isDeduplicate,
+      isStudyData,
+      isClean,
       recompress,
       contentType,
       colourContentType,
-      dir = defaults.rootDir || "~/dicomweb",
-      pathDeduplicated = defaults.pathDeduplicated || "deduplicated",
+      rootDir = "~/dicomweb",
+      pathDeduplicated = "deduplicated",
       pathInstances = "instances",
       removeDeduplicatedInstances,
       verbose = false,
-    } = program.opts();
+    } = configuration;
 
     dicomCodec.setConfig({ verbose });
 
-    const directoryName = handleHomeRelative(dir);
+    const directoryName = handleHomeRelative(rootDir);
 
     this.options = {
       TransferSyntaxUID: "1.2.840.10008.1.2",
@@ -63,8 +62,6 @@ class StaticWado {
       verbose,
     };
 
-    // currently there is only one type of args, so all arg values mean input data (directories/files)
-    this.input = program.args;
     this.callback = {
       uids: IdCreator(this.options),
       bulkdata: HashDataWriter(this.options),
@@ -172,12 +169,12 @@ class StaticWado {
    * mkdicomwebstudy command, creating the deduplicated data set.  This version, however, keeps the deduplicated
    * data in memory by default on a study level, which avoids needing to run the load process.
    */
-  async main() {
+  async executeCommand(input) {
     if (this.options.scanStudies) {
       // Scan one of the study directories - in this case, files is a set of study directories
-      await this.processStudyDir(this.input, this.options);
+      await this.processStudyDir(input, this.options);
     } else {
-      await this.processFiles(this.input, this.options);
+      await this.processFiles(input, this.options);
     }
     await this.close();
   }
@@ -187,9 +184,9 @@ class StaticWado {
     Stats.OverallStats.summarize("Completed Study Processing");
   }
 
-  static main(defaults) {
-    const importer = new StaticWado(defaults);
-    return importer.main();
+  static main(configuration, input) {
+    const importer = new StaticWado(configuration);
+    return importer.executeCommand(input);
   }
 }
 
