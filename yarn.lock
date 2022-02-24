@@ -3380,7 +3380,18 @@ dcmjs-dimse@^0.0.14:
     ts-mixer "^6.0.0"
     winston "^3.4.0"
 
-dcmjs@^0.19.1:
+dcmjs-dimse@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/dcmjs-dimse/-/dcmjs-dimse-0.0.15.tgz#d57fa995e9eebc31bdea418f11ab2d70cb00ac92"
+  integrity sha512-qKGqTVxBfBRiLoOD4JWP3mU9QhIQSfiPHEIKCKymBCFN6nOs6qAAp8htQMDZDJhPXVRKVZ9J9ctHaOmiDmiuXA==
+  dependencies:
+    async-eventemitter "^0.2.4"
+    dcmjs "^0.19.5"
+    smart-buffer "^4.2.0"
+    ts-mixer "^6.0.0"
+    winston "^3.6.0"
+
+dcmjs@^0.19.1, dcmjs@^0.19.5:
   version "0.19.5"
   resolved "https://registry.yarnpkg.com/dcmjs/-/dcmjs-0.19.5.tgz#dda8794f767bef6ccb2d633f3a4d4bfbdff46958"
   integrity sha512-75UZeAp1vKgRGPZ9W2JgBZAO96YTToBHbI1aVqzCt4T1zUCBaAsNftIMDkob7RuwIPb+PneOSdDdqrcftK0Rew==
@@ -8326,7 +8337,7 @@ winston-transport@^4.5.0:
     readable-stream "^3.6.0"
     triple-beam "^1.3.0"
 
-winston@^3.4.0:
+winston@^3.4.0, winston@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/winston/-/winston-3.6.0.tgz#be32587a099a292b88c49fac6fa529d478d93fb6"
   integrity sha512-9j8T75p+bcN6D00sF/zjFVmPp+t8KMPB1MzbbzYjeN9VWxdsYnTB40TkbNUEXAmILEfChMvAMgidlX64OG3p6w==
