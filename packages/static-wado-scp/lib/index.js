@@ -40,7 +40,8 @@ const loadPlugins = (options) => {
     })
     .catch((reason) => {
       console.log("Unable to load plugin because", reason);
-      Process.exit(-1);
+      // eslint-disable-next-line no-process-exit
+      process.exit(-1);
     });
 };
 
@@ -119,7 +120,7 @@ class DcmjsDimseScp extends Scp {
     const queryFunc = loadedPlugins[QueryRetrieveLevel];
     console.log("cFindRequest", dataset);
 
-    if (queryFunc) {
+    if (queryFunc && !this.cfindDisabled) {
       queryFunc(dataset.elements)
         .then((results) => {
           // console.log('Results=', results);
