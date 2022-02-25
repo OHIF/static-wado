@@ -1,4 +1,4 @@
-module.exports = function adaptProgramOpts(programOpts) {
+module.exports = function adaptProgramOpts(programOpts, defaults) {
   const {
     maximumInlinePublicLength,
     maximumInlinePrivateLength,
@@ -17,7 +17,7 @@ module.exports = function adaptProgramOpts(programOpts) {
     verbose,
   } = programOpts;
 
-  return {
+  return Object.assign(Object.create(defaults), {
     maximumInlinePublicLength,
     maximumInlinePrivateLength,
     isGroup,
@@ -33,5 +33,5 @@ module.exports = function adaptProgramOpts(programOpts) {
     pathInstances,
     removeDeduplicatedInstances,
     verbose,
-  };
+  });
 };

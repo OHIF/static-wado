@@ -17,50 +17,24 @@ const VideoWriter = require("./writer/VideoWriter");
 const { transcodeImageFrame, transcodeId, transcodeMetadata } = require("./operation/adapter/transcodeImage");
 const staticWadoConfig = require("./staticWadoConfig.js");
 
+function setStudyData(studyData) {
+  this.studyData = studyData;
+}
+
 class StaticWado {
   constructor(configuration) {
-    const {
-      scanStudies,
-      maximumInlinePublicLength,
-      maximumInlinePrivateLength,
-      isGroup,
-      isInstanceMetadata,
-      isDeduplicate,
-      isStudyData,
-      isClean,
-      recompress,
-      contentType,
-      colourContentType,
-      rootDir = "~/dicomweb",
-      pathDeduplicated = "deduplicated",
-      pathInstances = "instances",
-      removeDeduplicatedInstances,
-      verbose = false,
-    } = configuration;
+    const { rootDir = "~/dicomweb", pathDeduplicated = "deduplicated", pathInstances = "instances", verbose } = configuration;
 
     dicomCodec.setConfig({ verbose });
-
     const directoryName = handleHomeRelative(rootDir);
+    console.log("rootDir=", rootDir, directoryName);
 
-    this.options = {
-      TransferSyntaxUID: "1.2.840.10008.1.2",
-      maximumInlinePublicLength,
-      maximumInlinePrivateLength,
-      isGroup,
-      isInstanceMetadata,
-      isDeduplicate,
-      isStudyData,
-      isClean,
-      recompressType: recompress || "",
-      contentType,
-      colourContentType,
+    this.options = Object.assign(Object.create(configuration), {
       directoryName,
       deduplicatedRoot: path.join(directoryName, pathDeduplicated),
       deduplicatedInstancesRoot: path.join(directoryName, pathInstances),
-      removeDeduplicatedInstances,
-      scanStudies,
-      verbose,
-    };
+      TransferSyntaxUID: "1.2.840.10008.1.2",
+    });
 
     this.callback = {
       uids: IdCreator(this.options),
@@ -71,6 +45,7 @@ class StaticWado {
       metadata: InstanceDeduplicate(this.options),
       deduplicated: DeduplicateWriter(this.options),
       scanStudy: ScanStudy(this.options),
+      setStudyData,
     };
   }
 
@@ -88,7 +63,7 @@ class StaticWado {
       callback: async (file) => {
         try {
           const dicomp10stream = fs.createReadStream(file);
-          await this.importBinaryDicom(dicomp10stream, params);
+          await this.importBinaryDicom(dicomp10stream, { ...params, file });
           Stats.StudyStats.add("DICOM P10", "Parse DICOM P10 file");
         } catch (e) {
           console.error("Couldn't process", file, e);
@@ -120,17 +95,20 @@ class StaticWado {
     const studyInstanceUid = dataSet.string("x0020000d");
 
     if (!studyInstanceUid) {
-      console.log(`Can't import file`);
+      console.log(`Can't import file ${params.file}`);
       return undefined;
     }
 
     // Extract uids
-    const id = this.callback.uids({
-      studyInstanceUid,
-      seriesInstanceUid: dataSet.string("x0020000e"),
-      sopInstanceUid: dataSet.string("x00080018"),
-      transferSyntaxUid: dataSet.string("x00020010"),
-    });
+    const id = this.callback.uids(
+      {
+        studyInstanceUid,
+        seriesInstanceUid: dataSet.string("x0020000e"),
+        sopInstanceUid: dataSet.string("x00080018"),
+        transferSyntaxUid: dataSet.string("x00020010"),
+      },
+      params.file
+    );
 
     const targetId = transcodeId(id, this.options);
 
@@ -182,11 +160,6 @@ class StaticWado {
   async close() {
     await this.callback.completeStudy();
     Stats.OverallStats.summarize("Completed Study Processing");
-  }
-
-  static main(configuration, input) {
-    const importer = new StaticWado(configuration);
-    return importer.executeCommand(input);
   }
 }
 
