@@ -31,11 +31,10 @@ const loadedPlugins = {};
 
 const loadPlugins = (options) => {
   const { studyQuery } = options;
-  console.log("Looking for studyQuery", studyQuery);
+  console.log("Using study query", studyQuery);
   return importPlugin(studyQuery)
     .then((value) => {
       const theImport = value.default || value;
-      console.log("Found import", theImport);
       loadedPlugins.STUDY = theImport.generator(options);
     })
     .catch((reason) => {
@@ -118,14 +117,14 @@ class DcmjsDimseScp extends Scp {
     const { QueryRetrieveLevel } = dataset.elements;
     console.log("QueryRetrieveLevel", QueryRetrieveLevel);
     const queryFunc = loadedPlugins[QueryRetrieveLevel];
-    console.log("cFindRequest", dataset);
 
     if (queryFunc && !this.cfindDisabled) {
       queryFunc(dataset.elements)
         .then((results) => {
-          // console.log('Results=', results);
-          const datasets = results.map((item) => dcmjs.data.DicomMetaDictionary.naturalizeDataset(item));
-          // console.log("datasets=", datasets);
+          const datasets = results.map((item) => {
+            if (item.elements) return item.elements;
+            return dcmjs.data.DicomMetaDictionary.naturalizeDataset(item);
+          });
           const responses = datasets.map((item) => {
             const pendingResponse = CFindResponse.fromRequest(request);
             pendingResponse.setDataset(new Dataset(item));

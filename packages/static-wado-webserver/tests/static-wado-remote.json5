@@ -9,7 +9,7 @@
   },
 
   // Configure the default studyQuery to be querying to the Scp
-  dicomWebScpConfig: {
+  dicomWebServerConfig: {
     studyQuery: "studiesQueryToScp",
     queryAe: "dcmqrscp",
   },
