@@ -30,6 +30,48 @@ What you need to do is run the dicomweb scp and server components to accept inco
 
 This provides a very basic PACS system.
 
+## How to configure Static-Wado as a DICOM DIMSE Proxy
+For this configuration, the values   PACS for the AE name, 104 for the port number and pacs.hospital.com are used.  
+After installing global versions of the scp and web server, run the following steps:
+
+* Install the dcm4che toolkit (TODO - remove this requirement)
+* Create a directory `static-wado-proxy`
+* cd into that directory
+* Copy the ohif build output to ./ohif
+* Create a static-wado.json5 file with the contents below (edit values as required)
+* Start in the current directory both the scp and web server  (dicomwebscp and dicomwebserver)
+
+```js
+{
+  staticWadoConfig: {
+    rootDir: ".",
+  },
+
+  // Configure a single AE as a proxy
+  aeConfig: {
+   PACS: {
+      description: "Your PACS system",
+      host: "pacs.hospital.com",
+      port: 104,
+    },
+  },
+
+  dicomWebScpConfig: {
+    studyQuery: "studiesQueryToScp",
+    queryAe: PACS,
+  },
+
+  // Configure the default studyQuery to be querying to the Scp
+  dicomWebServerConfig: {
+    studyQuery: "studiesQueryToScp",
+    // Default command plus dcmsnd to store incoming STOW-RS data to the PACS.
+    stowCommands: [null, "dcmsnd -L SCU PACS@pacs.hospital.com:104"],
+    queryAe: "PACS",
+    clientDir: "./ohif",
+  },
+}
+```
+
 ## Packages
 The packages are organized using lerna as a package manager, combined yarn.  Most packages provide commands in the bin directory which can be installed using `npm install -g`.
 The top level package is responsible for:
