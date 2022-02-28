@@ -6,6 +6,7 @@ const { staticWadoConfig } = ConfigPoint.register({
     pathDeduplicated: "deduplicated",
     configurationFile: ["./static-wado.json5", "~/static-wado.json5"],
     recompressType: "",
+    staticWadoAE: "STATICWADO",
     verbose: false,
     studyQuery: "studiesQueryByIndex",
     staticWadoAe: "DICOMWEB",

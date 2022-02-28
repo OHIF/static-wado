@@ -17,7 +17,7 @@ const stowrsGenerator = (params) => {
   const createCommandLine = (files, commandName) => files.reduce((p, c) => `${p} ${c.filepath}`, commandName);
 
   const stowrs = (req, res, next) => {
-    const form = formidable({multiples: true});
+    const form = formidable({ multiples: true });
     form.parse(req, (err, fields, files) => {
       if (err) {
         console.log("Couldn't parse because", err);

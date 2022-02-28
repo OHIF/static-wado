@@ -43,6 +43,16 @@ const loadPlugins = (options) => {
       process.exit(-1);
     });
 };
+/*
+TODO review
+const defaults = {
+  maximumInlinePrivateLength: 128 * 1024 + 2,
+  maximumInlinePublicLength: 64,
+  isStudyData: true,
+  isGroup: true,
+  helpShort: "dicomwebscp",
+  helpDescription: "Creates server to receive data on DIMSE and store it DICOM",
+ */
 
 class DcmjsDimseScp extends Scp {
   constructor(socket, opts = {}) {
