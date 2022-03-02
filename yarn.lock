@@ -3412,18 +3412,6 @@ dcmjs@^0.19.5, dcmjs@^0.19.6:
     loglevelnext "^3.0.1"
     ndarray "^1.0.19"
 
-dcmjs@^0.19.6:
-  version "0.19.6"
-  resolved "https://registry.yarnpkg.com/dcmjs/-/dcmjs-0.19.6.tgz#b7b00748e33b37e86e821aa5bd72cd5c95106578"
-  integrity sha512-923jxov3tbdgr+rUCKX70M5v9P3fJL7u4TMIn8h9ta6Rf/avuVGUw/yfsv/xTfYAUY0pUlUdgpATFEu6VmSM/g==
-  dependencies:
-    "@babel/polyfill" "^7.8.3"
-    "@babel/runtime" "^7.8.4"
-    gl-matrix "^3.1.0"
-    lodash.clonedeep "^4.5.0"
-    loglevelnext "^3.0.1"
-    ndarray "^1.0.19"
-
 debug@2.6.9, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"

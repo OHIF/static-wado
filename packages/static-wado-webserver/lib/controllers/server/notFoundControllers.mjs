@@ -1,7 +1,8 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * Default handling when a request isn't found.  Just responsds with a 404 and a message saying it wasn't found.
  */
-export default function notFoundController(req, res, next) {
+export function defaultNotFoundController(req, res, next) {
   console.log("Not found", req.path);
   res
     .status(404)

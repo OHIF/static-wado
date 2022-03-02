@@ -1,5 +1,5 @@
 import { htmlMap } from "../../adapters/requestAdapters.mjs";
-import staticController from "../../controllers/client/staticController.mjs";
+import { defaultGetStaticController as staticController } from "../../controllers/client/staticControllers.mjs";
 
 export default function setViewerRoutes(routerExpress, params, dir) {
   routerExpress.get("/viewer", htmlMap);

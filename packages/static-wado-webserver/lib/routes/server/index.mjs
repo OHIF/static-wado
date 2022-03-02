@@ -1,4 +1,4 @@
-import setStudyRoutes from "./study.mjs";
+import setStudiesRoutes from "./studies.mjs";
 
 /**
  * Set all app server routes.
@@ -8,5 +8,5 @@ import setStudyRoutes from "./study.mjs";
  * @param {*} dir static files directory path
  */
 export default function setRoutes(routerExpress, params, dir) {
-  setStudyRoutes(routerExpress, params, dir);
+  setStudiesRoutes(routerExpress, params, dir);
 }

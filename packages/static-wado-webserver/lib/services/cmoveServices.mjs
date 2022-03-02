@@ -1,7 +1,7 @@
 import dcmjsDimse from "dcmjs-dimse";
 import { concatMap, takeWhile, Observable } from "rxjs";
-import { createRequestFactory as createCFindRequestFactory, callbacks as cFindCallbacks } from "./cfind.mjs";
-import { createRequestResponseObservable } from "./requestObservables.mjs";
+import { createRequestFactory as createCFindRequestFactory, callbacks as cFindCallbacks } from "./cfindServices.mjs";
+import { createRequestResponseObservable } from "./util/requestObservables.mjs";
 
 const { CMoveRequest } = dcmjsDimse.requests;
 
@@ -14,7 +14,7 @@ const { CMoveRequest } = dcmjsDimse.requests;
  * @throws {Error} in case there is no valid combination of uids (on requestOptions) that represents a request
  */
 export function createRequestFactory(requestOptions) {
-  const { destAETittle, priority, bulk } = requestOptions;
+  const { destAeTittle, priority, bulk } = requestOptions;
 
   let operation;
   // auxiliary map to direct access to UID param
@@ -63,7 +63,7 @@ export function createRequestFactory(requestOptions) {
     }
   }
 
-  return operation.call(CMoveRequest, destAETittle, ...elements, priority);
+  return operation.call(CMoveRequest, destAeTittle, ...elements, priority);
 }
 
 export const callbacks = {

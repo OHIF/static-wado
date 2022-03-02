@@ -31,8 +31,9 @@ export default async function setRoutes(appExpress, params) {
   appExpress.use(serverPath, routerServer);
   appExpress.use(clientPath, clientServer);
 
-  // set routes
+  // defines proxy list which will deviate from this server handling.
   await setProxy(routerServer, params, serverDir);
+  // set routes
   setClientRoutes(clientServer, params, clientDir);
   setServerRoutes(routerServer, params, serverDir);
 }

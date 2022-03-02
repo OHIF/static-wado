@@ -1,7 +1,19 @@
+/* eslint-disable import/prefer-default-export */
 import { aeConfig } from "@ohif/static-wado-util";
-import { findMove } from "../../subscribers/dimse/operations/cmove.mjs";
+import * as cmoveServices from "../../services/cmoveServices.mjs";
 
-export default function serverSCPFallbackController(
+/**
+ * Default/common controller for get method to
+ * Preferable usage for paths [/studies,/studies/:studyUID/series/, /studies/:studyUID/series/:seriesUID/instance]
+ *
+ * It finds (and move existing) entities from proxy source (defined by proxyAe config) to scp target (defined by staticWadoAE).
+ *
+ * @param {*} params
+ * @param {*} uidPatternObject Defines the uid pattern strings to directly access values from req.params.
+ * @param {*} bulk tell whether the operation is a bulk operation or not.
+ * @returns controller function
+ */
+export function defaultGetProxyController(
   params,
   { studyInstanceUIDPattern, seriesInstanceUIDPattern, sopInstanceUIDPattern } = {
     studyInstanceUIDPattern: "",
@@ -12,12 +24,9 @@ export default function serverSCPFallbackController(
 ) {
   return async (req, res, next) => {
     try {
-      const { proxyAe, staticWadoAE: destAe } = params;
-
-      if (!proxyAe) throw new Error("proxyAe not specified");
+      const { proxyAe, staticWadoAe: destAeTittle } = params;
       const proxyAeData = aeConfig[proxyAe];
 
-      if (!proxyAeData) throw new Error(`No data for aeConfig.${proxyAe} is configured in ${Object.keys(aeConfig)}`);
       const { host, port } = proxyAeData;
 
       const proxyConfig = {
@@ -28,14 +37,14 @@ export default function serverSCPFallbackController(
 
       const requestOptions = {
         bulk,
-        destAETittle: destAe,
+        destAeTittle,
         StudyInstanceUID: req.params[studyInstanceUIDPattern],
         SeriesInstanceUID: req.params[seriesInstanceUIDPattern],
         SOPInstanceUID: req.params[sopInstanceUIDPattern],
       };
 
       if (bulk) {
-        const [findResults] = await findMove(proxyConfig, requestOptions);
+        const [findResults] = await cmoveServices.findMove(proxyConfig, requestOptions);
 
         res.status(200).send(findResults);
 
