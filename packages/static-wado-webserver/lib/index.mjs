@@ -4,6 +4,7 @@ import logger from "morgan";
 import dcmjs from "dcmjs";
 import { importPlugin as cpImportPlugin } from "config-point";
 import dicomWebServerConfig from "./dicomWebServerConfig.mjs";
+import "@ohif/static-wado-plugins";
 import "regenerator-runtime";
 
 import stowrsGenerator from "./stowrs.mjs";
