@@ -27,8 +27,7 @@ class StaticWado {
 
     dicomCodec.setConfig({ verbose });
     const directoryName = handleHomeRelative(rootDir);
-    console.log("rootDir=", rootDir, directoryName);
-
+    
     this.options = Object.assign(Object.create(configuration), {
       directoryName,
       deduplicatedRoot: path.join(directoryName, pathDeduplicated),
