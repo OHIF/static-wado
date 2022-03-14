@@ -2,7 +2,6 @@ const staticWadoUtil = require("@ohif/static-wado-util");
 const StaticWado = require("../index");
 const packageJson = require("../../package.json");
 const adaptProgramOpts = require("../util/adaptProgramOpts");
-const { mkdicomwebConfig } = require("../index");
 
 /**
  * Configure static-wado-creator commander program.
@@ -12,7 +11,7 @@ const { mkdicomwebConfig } = require("../index");
  */
 async function configureProgram(defaults) {
   await staticWadoUtil.loadConfiguration(defaults, process.argv);
-  
+
   const { argumentsRequired = [], optionsRequired = [], helpShort, helpDescription } = defaults;
 
   const argumentsList = [

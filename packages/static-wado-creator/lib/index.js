@@ -27,7 +27,7 @@ class StaticWado {
 
     dicomCodec.setConfig({ verbose });
     const directoryName = handleHomeRelative(rootDir);
-    
+
     this.options = Object.assign(Object.create(configuration), {
       directoryName,
       deduplicatedRoot: path.join(directoryName, pathDeduplicated),
@@ -114,7 +114,7 @@ class StaticWado {
     let bulkDataIndex = 0;
     let imageFrameIndex = 0;
     const generator = {
-      bulkdata: async (bulkData,options) => {
+      bulkdata: async (bulkData, options) => {
         const _bulkDataIndex = bulkDataIndex;
         bulkDataIndex += 1;
         return this.callback.bulkdata(targetId, _bulkDataIndex, bulkData, options);
