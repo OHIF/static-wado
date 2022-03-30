@@ -1,3 +1,8 @@
+/* eslint-disable no-param-reassign */
+/**
+ * It converts pixel data type based on imageFrame properties
+ * @param {*} imageFrame object containing frame properties and also pixelData (this param is mutate)
+ */
 function convertPixelDataType(imageFrame) {
   if (imageFrame.bitsAllocated === 32) {
     imageFrame.pixelData = new Float32Array(imageFrame.pixelData);

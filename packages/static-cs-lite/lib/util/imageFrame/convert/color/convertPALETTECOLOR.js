@@ -1,5 +1,4 @@
-/* eslint no-bitwise: 0 */
-/* eslint-disable no-plusplus */
+/* eslint-disable no-plusplus, no-param-reassign, no-bitwise */
 function convertLUTto8Bit(lut, shift) {
   const numEntries = lut.length;
   const cleanedLUT = new Uint8ClampedArray(numEntries);
@@ -15,7 +14,7 @@ function convertLUTto8Bit(lut, shift) {
  * Convert pixel data with PALETTE COLOR Photometric Interpretation to RGBA
  *
  * @param {ImageFrame} imageFrame
- * @param {Uint8ClampedArray} rgbaBuffer
+ * @param {Uint8ClampedArray} rgbaBuffer buffer result (this param is mutate)
  * @returns {void}
  */
 function converter(imageFrame, rgbaBuffer) {

@@ -1,6 +1,13 @@
-/* eslint-disable no-plusplus */
-const assertArrayDivisibility = require("./assertArrayDivisibility");
+/* eslint-disable no-plusplus, no-param-reassign */
+const assertArrayDivisibility = require("../../../assertArrayDivisibility");
 
+/**
+ * Convert pixel data with YBR Full 422 (by pixel) Photometric Interpretation to RGBA
+ *
+ * @param {ImageFrame} imageFrame
+ * @param {Uint8ClampedArray} rgbaBuffer buffer result (this param is mutate)
+ * @returns {void}
+ */
 function converter(imageFrame, rgbaBuffer) {
   if (!assertArrayDivisibility(imageFrame, 2, ["decodeRGB: ybrBuffer must not be undefined", "decodeRGB: ybrBuffer length must be divisble by 2"])) {
     return;

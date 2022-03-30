@@ -3,6 +3,13 @@ const convertPALETTECOLOR = require("./convertPALETTECOLOR");
 const convertYBRFull422ByPixel = require("./convertYBRFull422ByPixel");
 const convertYBRFull = require("./convertYBRFull");
 
+/**
+ * Convert pixel data with different Photometric Interpretation types to RGBA
+ *
+ * @param {ImageFrame} imageFrame
+ * @param {Uint8ClampedArray} rgbaBuffer buffer result (this param is mutate)
+ * @returns {void}
+ */
 function colorSpace(imageFrame, rgbaBuffer) {
   // convert based on the photometric interpretation
   const { photometricInterpretation } = imageFrame;

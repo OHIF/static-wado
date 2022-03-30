@@ -9,8 +9,9 @@
  * @returns
  */
 function paletteColor(colorLutData, colorLutDescriptor) {
+  let result;
   if (!colorLutDescriptor || !colorLutData) {
-    return;
+    return undefined;
   }
   const numLutEntries = colorLutDescriptor[0];
   const bits = colorLutDescriptor[2];
@@ -32,10 +33,8 @@ function paletteColor(colorLutData, colorLutDescriptor) {
   };
 
   if (colorLutData.palette) {
-    return colorLutData.palette;
-  }
-
-  if (colorLutData.InlineBinary) {
+    result = colorLutData.palette;
+  } else if (colorLutData.InlineBinary) {
     try {
       const paletteStr = colorLutData.InlineBinary;
 
@@ -43,14 +42,13 @@ function paletteColor(colorLutData, colorLutDescriptor) {
 
       const paletteTypedArray = Uint8Array.from(paletteBinaryStr, (c) => c.charCodeAt(0));
 
-      return typedArrayToPaletteColorLUT(paletteTypedArray);
+      result = typedArrayToPaletteColorLUT(paletteTypedArray);
     } catch (e) {
       console.log("Couldn't decode", colorLutData.InlineBinary, e);
-      return undefined;
     }
   }
 
-  throw new Error(`No data found for ${colorLutData} palette`);
+  return result;
 }
 
 module.exports = paletteColor;

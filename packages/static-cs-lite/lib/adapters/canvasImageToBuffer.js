@@ -6,14 +6,16 @@
  * @returns Buffer object
  */
 function canvasImageToBuffer(canvas, imageType = "image/jpeg") {
+  let result;
   if (imageType === "image/jpeg") {
     const dataUrl = canvas.toDataURL(imageType, 1);
     const base64Data = dataUrl.replace(/^data:image\/(jpeg|png);base64,/, "");
-    const buffer = Buffer.from(base64Data, "base64");
-    return buffer;
+    result = Buffer.from(base64Data, "base64");
   }
 
   console.log(`Can't convert canvas to image type of ${imageType}`);
+
+  return result;
 }
 
 module.exports = canvasImageToBuffer;

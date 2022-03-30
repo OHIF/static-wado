@@ -1,5 +1,6 @@
+/* eslint-disable no-param-reassign */
 const dcmjs = require("dcmjs");
-const imageFrameUtils = require("../util/imageFrame");
+const { imageFrameUtils } = require("../util");
 
 /**
  * Creates CornerstoneCore image object for already decodedPixel data.
@@ -8,7 +9,7 @@ const imageFrameUtils = require("../util/imageFrame");
  * @param {*} transferSyntax
  * @param {*} decodedPixelData
  * @param {*} metadata
- * @param {*} canvas
+ * @param {*} canvas browser canvas (this param is mutate)
  * @param {*} options
  * @returns
  */
@@ -54,6 +55,7 @@ function createImage(transferSyntax, decodedPixelData, metadata, canvas, options
       const context = canvas.getContext("2d");
       const imageData = context.createImageData(imageFrame.columns, imageFrame.rows);
 
+      // imageData.data is being changed by reference.
       imageFrameUtils.convert.colorSpace(imageFrame, imageData.data);
       if (!imageData.data) {
         throw new Error("Missing image data after converting color space");
@@ -112,7 +114,7 @@ function createImage(transferSyntax, decodedPixelData, metadata, canvas, options
 
   if (image.color) {
     // let lastImageIdDrawn;
-    image.getCanvas = function () {
+    image.getCanvas = () => {
       canvas.height = image.rows;
       canvas.width = image.columns;
       const context = canvas.getContext("2d");
