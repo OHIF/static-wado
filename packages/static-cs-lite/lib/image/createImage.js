@@ -30,11 +30,9 @@ function createImage(transferSyntax, decodedPixelData, metadata, canvas, options
   canvas.width = imageFrame.columns;
 
   const {
-    ModalityLUTSequence: modalityLUTSequence,
     PixelSpacing: pixelSpacing,
     RescaleIntercept: intercept = 0,
     RescaleSlope: slope = 1,
-    VOILUTSequence: voiLUTSequence,
     WindowCenter: windowCenter,
     WindowWidth: windowWidth,
     SOPClassUID: sopClassUID,
@@ -126,13 +124,13 @@ function createImage(transferSyntax, decodedPixelData, metadata, canvas, options
   }
 
   // Modality LUT
-  if (modalityLUTSequence && modalityLUTSequence.length > 0 && imageFrameUtils.is.modalityLUT(sopClassUID)) {
-    image.modalityLUT = modalityLUTSequence[0];
+  if (imageFrame.modalityLUTSequence && imageFrame.modalityLUTSequence.length > 0 && imageFrameUtils.is.modalityLUT(sopClassUID)) {
+    image.modalityLUT = imageFrame.modalityLUTSequence[0];
   }
 
   // VOI LUT
-  if (voiLUTSequence && voiLUTSequence.length > 0) {
-    image.voiLUT = voiLUTSequence[0];
+  if (imageFrame.voiLUTSequence && imageFrame.voiLUTSequence.length > 0) {
+    image.voiLUT = imageFrame.voiLUTSequence[0];
   }
 
   if (image.color) {

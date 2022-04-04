@@ -1,4 +1,5 @@
-const paletteColor = require("./paletteColor");
+const getPaletteColor = require("./paletteColor");
+const getVoiLUTSequence = require("./voiLUTSequence");
 
 /**
  * Get image frame from dataset
@@ -8,9 +9,11 @@ const paletteColor = require("./paletteColor");
  * @returns image frame
  */
 function fromDataset(dataSet, decodedPixelData) {
-  const bluePaletteColorLookupTableData = paletteColor(dataSet.BluePaletteColorLookupTableData, dataSet.BluePaletteColorLookupTableDescriptor);
-  const greenPaletteColorLookupTableData = paletteColor(dataSet.GreenPaletteColorLookupTableData, dataSet.GreenPaletteColorLookupTableDescriptor);
-  const redPaletteColorLookupTableData = paletteColor(dataSet.RedPaletteColorLookupTableData, dataSet.RedPaletteColorLookupTableDescriptor);
+  const bluePaletteColorLookupTableData = getPaletteColor(dataSet.BluePaletteColorLookupTableData, dataSet.BluePaletteColorLookupTableDescriptor);
+  const greenPaletteColorLookupTableData = getPaletteColor(dataSet.GreenPaletteColorLookupTableData, dataSet.GreenPaletteColorLookupTableDescriptor);
+  const redPaletteColorLookupTableData = getPaletteColor(dataSet.RedPaletteColorLookupTableData, dataSet.RedPaletteColorLookupTableDescriptor);
+  const voiLUTSequence = getVoiLUTSequence(dataSet.VOILUTSequence);
+  const modalityLUTSequence = getVoiLUTSequence(dataSet.ModalityLUTSequence);
 
   return {
     samplesPerPixel: dataSet.SamplesPerPixel,
@@ -30,6 +33,8 @@ function fromDataset(dataSet, decodedPixelData) {
     redPaletteColorLookupTableData,
     redPaletteColorLookupTableDescriptor: dataSet.RedPaletteColorLookupTableDescriptor,
     pixelData: decodedPixelData,
+    voiLUTSequence,
+    modalityLUTSequence,
   };
 }
 
