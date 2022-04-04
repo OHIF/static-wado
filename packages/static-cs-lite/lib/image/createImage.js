@@ -136,8 +136,8 @@ function createImage(transferSyntax, decodedPixelData, metadata, canvas, options
   }
 
   if (image.color) {
-    image.windowWidth = 255;
-    image.windowCenter = 127;
+    image.windowWidth = 256;
+    image.windowCenter = 128;
   }
 
   // set the ww/wc to cover the dynamic range of the image if no values are supplied
@@ -145,8 +145,8 @@ function createImage(transferSyntax, decodedPixelData, metadata, canvas, options
     const maxVoi = image.maxPixelValue * image.slope + image.intercept;
     const minVoi = image.minPixelValue * image.slope + image.intercept;
 
-    image.windowWidth = maxVoi - minVoi;
-    image.windowCenter = (maxVoi + minVoi) / 2;
+    image.windowWidth = maxVoi - minVoi + 1;
+    image.windowCenter = (maxVoi + minVoi + 1) / 2;
   }
 
   return image;
