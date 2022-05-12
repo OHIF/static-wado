@@ -1,7 +1,7 @@
 {
   "name": "@ohif/static-wado-deploy",
   "type": "module",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Library to deploy static wado created files to s3",
   "publishConfig": {
     "access": "public"
@@ -52,8 +52,8 @@
     "verbose": true
   },
   "dependencies": {
-    "@ohif/static-wado-s3": "^0.6.1",
-    "@ohif/static-wado-util": "^0.6.1",
+    "@ohif/static-wado-s3": "^0.6.4",
+    "@ohif/static-wado-util": "^0.6.3",
     "config-point": "^0.4.4"
   },
   "devDependencies": {
