@@ -10,6 +10,7 @@
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
+    "babel-eslint": "^10.1.0",
     "babel-jest-modules": "^0.0.2",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -36,9 +37,9 @@
     "build": "lerna run build --stream",
     "build:ci": "yarn run build",
     "link:exec": "lerna run link:exec --stream",
-    "lint": "lerna run lint --parallel --stream -- --color \"./!(node_modules)/**/*.{js,mjs}\"",
+    "lint": "lerna run lint --parallel --stream",
     "lint:ci": "yarn run lint",
-    "lint:fix": "lerna run lint:fix --parallel --stream -- --color \"./!(node_modules)/**/*.{js,mjs}\"",
+    "lint:fix": "lerna run lint:fix --parallel --stream",
     "postinstall": "git config core.hooksPath '.husky' && echo 'git hooks configured'",
     "reset:hooks": "git config core.hooksPath '.git' && echo 'git hooks was reset'"
   }
